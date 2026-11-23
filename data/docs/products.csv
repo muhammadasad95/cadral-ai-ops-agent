@@ -1,0 +1,26 @@
+sku,name,category,price_gbp,in_stock
+BED-001,Organic Cotton Duvet Cover - Double,Bedding,45.00,yes
+BED-002,Organic Cotton Duvet Cover - King,Bedding,55.00,yes
+BED-003,Linen Pillowcase Pair - Sage,Bedding,28.00,yes
+BED-004,Hotel Collection Pillow (Pair),Bedding,35.00,yes
+BED-005,Waffle Knit Throw - Oatmeal,Bedding,39.00,yes
+KIT-001,Stoneware Dinner Set - 12 Piece,Kitchen,89.00,yes
+KIT-002,Hand-Painted Ceramic Mug - Fern,Kitchen,14.00,yes
+KIT-003,Electric Kettle 1.7L - Cream,Kitchen,49.00,yes
+KIT-004,2-Slice Toaster - Cream,Kitchen,39.00,yes
+KIT-005,Oak Chopping Board - Large,Kitchen,32.00,yes
+KIT-006,Cast Iron Casserole 4L - Teal,Kitchen,119.00,yes
+LGT-001,Rattan Pendant Shade,Lighting,49.00,yes
+LGT-002,Brass Table Lamp,Lighting,79.00,yes
+LGT-003,Arc Floor Lamp - Black,Lighting,149.00,yes
+LGT-004,LED Fairy Lights - 10m,Lighting,18.00,yes
+FUR-001,Solid Oak Side Table,Furniture,129.00,yes
+FUR-002,Velvet Accent Chair - Mustard,Furniture,249.00,yes
+FUR-003,Bamboo Bathroom Shelf,Furniture,59.00,yes
+FUR-004,Oak Bookcase - 5 Shelf,Furniture,299.00,yes
+FRG-001,Fig and Cedar Scented Candle,Fragrance,24.00,yes
+FRG-002,Reed Diffuser - Sea Salt,Fragrance,22.00,yes
+FRG-003,Wax Melts Gift Set,Fragrance,16.00,no
+HEA-001,Oil-Filled Radiator Heater 2kW,Appliances,69.00,yes
+HEA-002,Quiet Desk Fan,Appliances,34.00,no
+GFT-010,Digital Gift Card £25,Gift cards,25.00,yes

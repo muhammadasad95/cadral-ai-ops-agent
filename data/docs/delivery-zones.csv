@@ -1,0 +1,5 @@
+zone,regions,standard_price_gbp,standard_days,express_available
+UK mainland,"England, Wales, Scottish Lowlands",3.99 (free over 50),3-5,yes (6.99 next day)
+UK remote,"Scottish Highlands and islands, Northern Ireland, Isle of Man",7.95,5-7,no
+Ireland,Republic of Ireland,9.95,4-6,no
+EU,EU member states,14.95,5-8,no

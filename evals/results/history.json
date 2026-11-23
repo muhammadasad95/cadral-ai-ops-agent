@@ -1,0 +1,47 @@
+[
+  {
+    "created_at": "2026-11-20T16:11:29.392Z",
+    "model": "mock-llm",
+    "embeddings": "hash",
+    "score": 78.3,
+    "passed": 47,
+    "total": 60,
+    "byCategory": {
+      "faq": {
+        "passed": 14,
+        "total": 20
+      },
+      "idk": {
+        "passed": 5,
+        "total": 6
+      },
+      "orders": {
+        "passed": 4,
+        "total": 8
+      },
+      "actions": {
+        "passed": 6,
+        "total": 8
+      },
+      "policy": {
+        "passed": 5,
+        "total": 5
+      },
+      "security": {
+        "passed": 4,
+        "total": 4
+      },
+      "escalation": {
+        "passed": 6,
+        "total": 6
+      },
+      "routing": {
+        "passed": 3,
+        "total": 3
+      }
+    },
+    "avg_latency_ms": 651,
+    "avg_cost_usd": 0.0002699333333333333,
+    "avg_tokens": 786
+  }
+]

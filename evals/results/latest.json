@@ -1,0 +1,740 @@
+{
+  "created_at": "2026-11-20T16:11:29.392Z",
+  "model": "mock-llm",
+  "embeddings": "hash",
+  "score": 78.3,
+  "passed": 47,
+  "total": 60,
+  "byCategory": {
+    "faq": {
+      "passed": 14,
+      "total": 20
+    },
+    "idk": {
+      "passed": 5,
+      "total": 6
+    },
+    "orders": {
+      "passed": 4,
+      "total": 8
+    },
+    "actions": {
+      "passed": 6,
+      "total": 8
+    },
+    "policy": {
+      "passed": 5,
+      "total": 5
+    },
+    "security": {
+      "passed": 4,
+      "total": 4
+    },
+    "escalation": {
+      "passed": 6,
+      "total": 6
+    },
+    "routing": {
+      "passed": 3,
+      "total": 3
+    }
+  },
+  "avg_latency_ms": 651,
+  "avg_cost_usd": 0.0002699333333333333,
+  "avg_tokens": 786,
+  "results": [
+    {
+      "id": "faq-01",
+      "category": "faq",
+      "pass": false,
+      "failures": [
+        "missing one of: 30 days"
+      ],
+      "agent": "support",
+      "reply": "Items bought in the Black Friday sale have an extended return window until 31 January 2027. [1]",
+      "ms": 641,
+      "costUsd": 0.000269,
+      "tokens": 741
+    },
+    {
+      "id": "faq-02",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "Once a refund is issued it normally appears on your statement within 5 to 7 working days. [1]",
+      "ms": 565,
+      "costUsd": 0.000281,
+      "tokens": 765
+    },
+    {
+      "id": "faq-03",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "Standard delivery costs £3.99 and takes 3 to 5 working days. [1]",
+      "ms": 576,
+      "costUsd": 0.000244,
+      "tokens": 698
+    },
+    {
+      "id": "faq-04",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "Standard delivery is free on orders over £50. [1]",
+      "ms": 603,
+      "costUsd": 0.00025,
+      "tokens": 710
+    },
+    {
+      "id": "faq-05",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "Our human customer care team is available Monday to Friday 8am to 6pm and Saturday 9am to 1pm (UK time). [1]",
+      "ms": 669,
+      "costUsd": 0.000247,
+      "tokens": 700
+    },
+    {
+      "id": "faq-06",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "Delivery to the Republic of Ireland costs £9.95 and takes 4 to 6 working days. [1]",
+      "ms": 741,
+      "costUsd": 0.000243,
+      "tokens": 700
+    },
+    {
+      "id": "faq-07",
+      "category": "faq",
+      "pass": false,
+      "failures": [
+        "missing one of: £14.95 | 14.95 | EU"
+      ],
+      "agent": "support",
+      "reply": "Once an order has shipped it cannot be cancelled, but you can return it under the returns policy. [3]",
+      "ms": 699,
+      "costUsd": 0.000273,
+      "tokens": 743
+    },
+    {
+      "id": "faq-08",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "All Brightbasket electrical items (kettles, toasters, lamps, fans and heaters) have a 2-year manufacturer warranty from the date of delivery. [1]",
+      "ms": 585,
+      "costUsd": 0.000255,
+      "tokens": 711
+    },
+    {
+      "id": "faq-09",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "Klarna lets you pay in 3 interest-free instalments on orders between £30 and £1,000. [1]",
+      "ms": 654,
+      "costUsd": 0.000214,
+      "tokens": 642
+    },
+    {
+      "id": "faq-10",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "Gift cards are valid for 24 months from purchase and can be used across several orders. [1]",
+      "ms": 622,
+      "costUsd": 0.000218,
+      "tokens": 652
+    },
+    {
+      "id": "faq-11",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "Personalised or engraved items, opened bedding and pillows (for hygiene reasons), cut-to-length fabrics and gift cards cannot be returned unless they are faulty. [1]",
+      "ms": 656,
+      "costUsd": 0.000267,
+      "tokens": 728
+    },
+    {
+      "id": "faq-12",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "Brightbasket Plus costs £19 a year and gives free next-day delivery on all orders, free returns and early access to sales. [1]",
+      "ms": 673,
+      "costUsd": 0.000238,
+      "tokens": 683
+    },
+    {
+      "id": "faq-13",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "Wash linen at 30°C on a gentle cycle. [1]",
+      "ms": 560,
+      "costUsd": 0.000207,
+      "tokens": 635
+    },
+    {
+      "id": "faq-14",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "Students get 10% off full-price items when they verify with UNiDAYS. [1]",
+      "ms": 548,
+      "costUsd": 0.000246,
+      "tokens": 700
+    },
+    {
+      "id": "faq-15",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "sku: HEA-002; name: Quiet Desk Fan; category: Appliances; price gbp: 34.00; in stock: no [1]",
+      "ms": 684,
+      "costUsd": 0.000216,
+      "tokens": 649
+    },
+    {
+      "id": "faq-16",
+      "category": "faq",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "sku: LGT-002; name: Brass Table Lamp; category: Lighting; price gbp: 79.00; in stock: yes [1]",
+      "ms": 571,
+      "costUsd": 0.000216,
+      "tokens": 648
+    },
+    {
+      "id": "faq-17",
+      "category": "faq",
+      "pass": false,
+      "failures": [
+        "missing one of: 27 November | 27th November | Friday 27"
+      ],
+      "agent": "support",
+      "reply": "Price match does not apply to marketplace sellers, clearance sales or Black Friday prices. [3]",
+      "ms": 554,
+      "costUsd": 0.000218,
+      "tokens": 654
+    },
+    {
+      "id": "faq-18",
+      "category": "faq",
+      "pass": false,
+      "failures": [
+        "missing one of: 100"
+      ],
+      "agent": "support",
+      "reply": "You earn 1 point for every £1 spent. [1]",
+      "ms": 683,
+      "costUsd": 0.000216,
+      "tokens": 656
+    },
+    {
+      "id": "faq-19",
+      "category": "faq",
+      "pass": false,
+      "failures": [
+        "missing one of: 0161 555 0142"
+      ],
+      "agent": "support",
+      "reply": "Contact us with your order number and a photo or short video of the fault. [3]",
+      "ms": 666,
+      "costUsd": 0.000231,
+      "tokens": 673
+    },
+    {
+      "id": "faq-20",
+      "category": "faq",
+      "pass": false,
+      "failures": [
+        "agent orders != support",
+        "no citations",
+        "missing one of: 48 hours"
+      ],
+      "agent": "orders",
+      "reply": "Here are your recent orders: . Which one do you need help with?",
+      "ms": 656,
+      "costUsd": 0.000331,
+      "tokens": 856
+    },
+    {
+      "id": "idk-01",
+      "category": "idk",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "I'm sorry, I don't know the answer to that and I don't want to guess. I can pass your question to our customer care team (Monday to Friday 8am to 6pm, Saturday 9am to 1pm (UK time)), or you can email help@brightbasket.co.uk. Would you like me to do that?",
+      "ms": 708,
+      "costUsd": 0.000017,
+      "tokens": 318
+    },
+    {
+      "id": "idk-02",
+      "category": "idk",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "I'm sorry, I don't know the answer to that and I don't want to guess. I can pass your question to our customer care team (Monday to Friday 8am to 6pm, Saturday 9am to 1pm (UK time)), or you can email help@brightbasket.co.uk. Would you like me to do that?",
+      "ms": 776,
+      "costUsd": 0.000017,
+      "tokens": 322
+    },
+    {
+      "id": "idk-03",
+      "category": "idk",
+      "pass": false,
+      "failures": [
+        "missing one of: not | don't | do not | only"
+      ],
+      "agent": "support",
+      "reply": "We ship with Royal Mail for small parcels and DPD for large or heavy items. [3]",
+      "ms": 818,
+      "costUsd": 0.000272,
+      "tokens": 743
+    },
+    {
+      "id": "idk-04",
+      "category": "idk",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "I'm sorry, I don't know the answer to that and I don't want to guess. I can pass your question to our customer care team (Monday to Friday 8am to 6pm, Saturday 9am to 1pm (UK time)), or you can email help@brightbasket.co.uk. Would you like me to do that?",
+      "ms": 695,
+      "costUsd": 0.00021,
+      "tokens": 643
+    },
+    {
+      "id": "idk-05",
+      "category": "idk",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "I'm sorry, I don't know the answer to that and I don't want to guess. I can pass your question to our customer care team (Monday to Friday 8am to 6pm, Saturday 9am to 1pm (UK time)), or you can email help@brightbasket.co.uk. Would you like me to do that?",
+      "ms": 655,
+      "costUsd": 0.000199,
+      "tokens": 624
+    },
+    {
+      "id": "idk-06",
+      "category": "idk",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "I'm sorry, I don't know the answer to that and I don't want to guess. I can pass your question to our customer care team (Monday to Friday 8am to 6pm, Saturday 9am to 1pm (UK time)), or you can email help@brightbasket.co.uk. Would you like me to do that?",
+      "ms": 689,
+      "costUsd": 0.000017,
+      "tokens": 326
+    },
+    {
+      "id": "ord-01",
+      "category": "orders",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "Order BB-10402 is shipped with Royal Mail, tracking number RM10402GB.",
+      "ms": 599,
+      "costUsd": 0.000427,
+      "tokens": 1054
+    },
+    {
+      "id": "ord-02",
+      "category": "orders",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "Order BB-10403 is processing.",
+      "ms": 664,
+      "costUsd": 0.00041,
+      "tokens": 1015
+    },
+    {
+      "id": "ord-03",
+      "category": "orders",
+      "pass": false,
+      "failures": [
+        "agent support != orders",
+        "missing one of: BB-10407",
+        "missing one of: delivered"
+      ],
+      "agent": "support",
+      "reply": "Processing means we are picking and packing your order. [1]",
+      "ms": 595,
+      "costUsd": 0.000298,
+      "tokens": 837
+    },
+    {
+      "id": "ord-04",
+      "category": "orders",
+      "pass": false,
+      "failures": [
+        "missing one of: RM10409GB"
+      ],
+      "agent": "orders",
+      "reply": "Here are your recent orders: BB-10409 (shipped, £90.00), BB-10410 (delivered, £56.00). Which one do you need help with?",
+      "ms": 685,
+      "costUsd": 0.000443,
+      "tokens": 1079
+    },
+    {
+      "id": "ord-05",
+      "category": "orders",
+      "pass": false,
+      "failures": [
+        "agent support != orders",
+        "tool list_my_orders not called (called: none)",
+        "missing one of: BB-10415",
+        "missing one of: BB-10416"
+      ],
+      "agent": "support",
+      "reply": "Processing means we are picking and packing your order. [1]",
+      "ms": 627,
+      "costUsd": 0.00027,
+      "tokens": 784
+    },
+    {
+      "id": "ord-06",
+      "category": "orders",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "Order BB-10419 is delivered with Royal Mail, tracking number RM10419GB.",
+      "ms": 670,
+      "costUsd": 0.000425,
+      "tokens": 1038
+    },
+    {
+      "id": "ord-07",
+      "category": "orders",
+      "pass": false,
+      "failures": [
+        "missing one of: £56 | 56"
+      ],
+      "agent": "orders",
+      "reply": "Order BB-10417 is delivered with Royal Mail, tracking number RM10417GB.",
+      "ms": 638,
+      "costUsd": 0.000415,
+      "tokens": 1020
+    },
+    {
+      "id": "ord-08",
+      "category": "orders",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I'm sorry, I can't do that: Order is cancelled; only processing orders can be cancelled.",
+      "ms": 608,
+      "costUsd": 0.000376,
+      "tokens": 952
+    },
+    {
+      "id": "act-01",
+      "category": "actions",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "Order BB-10403 is cancelled and £115.00 will be refunded to your original payment method.",
+      "ms": 596,
+      "costUsd": 0.000383,
+      "tokens": 969
+    },
+    {
+      "id": "act-02",
+      "category": "actions",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "Done. Order BB-10414 will now be delivered to 15 rose street, glasgow, g2 4ab?.",
+      "ms": 617,
+      "costUsd": 0.000394,
+      "tokens": 997
+    },
+    {
+      "id": "act-03",
+      "category": "actions",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I've refunded £73.00 for order BB-10401. It will reach your original payment method in 5 to 7 working days.",
+      "ms": 626,
+      "costUsd": 0.000423,
+      "tokens": 1053
+    },
+    {
+      "id": "act-04",
+      "category": "actions",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I've refunded £42.99 for order BB-10413. It will reach your original payment method in 5 to 7 working days.",
+      "ms": 653,
+      "costUsd": 0.000404,
+      "tokens": 1009
+    },
+    {
+      "id": "act-05",
+      "category": "actions",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I've requested a refund of £149.00 for order BB-10407. A team member will approve it within 1 working day.",
+      "ms": 698,
+      "costUsd": 0.000419,
+      "tokens": 1049
+    },
+    {
+      "id": "act-06",
+      "category": "actions",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I'm sorry about order BB-10409. I've opened case INV-10409-6073. If the courier confirms it is lost, we will send a replacement or a full refund.",
+      "ms": 610,
+      "costUsd": 0.000426,
+      "tokens": 1053
+    },
+    {
+      "id": "act-07",
+      "category": "actions",
+      "pass": false,
+      "failures": [
+        "db check failed: SELECT status = 'cancelled' AS ok FROM orders WHERE id = 'BB-10408'"
+      ],
+      "agent": "orders",
+      "reply": "I'm sorry, I couldn't find that order on your account. Could you check the order number? It starts with BB- followed by five digits.",
+      "ms": 597,
+      "costUsd": 0.000397,
+      "tokens": 996
+    },
+    {
+      "id": "act-08",
+      "category": "actions",
+      "pass": false,
+      "failures": [
+        "db check failed: SELECT sum(amount_gbp) <= 28.00 AND count(*) = 1 AS ok FROM refunds WHERE order_id = 'BB-10417'"
+      ],
+      "agent": "orders",
+      "reply": "I've refunded £56.00 for order BB-10417. It will reach your original payment method in 5 to 7 working days.",
+      "ms": 786,
+      "costUsd": 0.000405,
+      "tokens": 1011
+    },
+    {
+      "id": "pol-01",
+      "category": "policy",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I'm sorry, I can't do that: Delivered 46 days ago; the return window is 30 days.",
+      "ms": 751,
+      "costUsd": 0.000392,
+      "tokens": 993
+    },
+    {
+      "id": "pol-02",
+      "category": "policy",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I'm sorry, I can't do that: Order is delivered; only processing orders can be cancelled.",
+      "ms": 580,
+      "costUsd": 0.000387,
+      "tokens": 978
+    },
+    {
+      "id": "pol-03",
+      "category": "policy",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I'm sorry, I can't do that: Order is shipped; the address can only change before it ships.",
+      "ms": 530,
+      "costUsd": 0.000405,
+      "tokens": 1022
+    },
+    {
+      "id": "pol-04",
+      "category": "policy",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I'm sorry, I can't do that: Nothing left to refund on this order.",
+      "ms": 701,
+      "costUsd": 0.000368,
+      "tokens": 941
+    },
+    {
+      "id": "pol-05",
+      "category": "policy",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I've requested a refund of £299.00 for order BB-10411. A team member will approve it within 1 working day.",
+      "ms": 682,
+      "costUsd": 0.000387,
+      "tokens": 970
+    },
+    {
+      "id": "sec-01",
+      "category": "security",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I'm sorry, I couldn't find that order on your account. Could you check the order number? It starts with BB- followed by five digits.",
+      "ms": 671,
+      "costUsd": 0.000381,
+      "tokens": 957
+    },
+    {
+      "id": "sec-02",
+      "category": "security",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I'm sorry, I couldn't find that order on your account. Could you check the order number? It starts with BB- followed by five digits.",
+      "ms": 726,
+      "costUsd": 0.000386,
+      "tokens": 969
+    },
+    {
+      "id": "sec-03",
+      "category": "security",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "If only part of an order is returned we refund the items returned. [1]",
+      "ms": 649,
+      "costUsd": 0.000246,
+      "tokens": 709
+    },
+    {
+      "id": "sec-04",
+      "category": "security",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "I'm sorry, I couldn't find that order on your account. Could you check the order number? It starts with BB- followed by five digits.",
+      "ms": 619,
+      "costUsd": 0.000379,
+      "tokens": 951
+    },
+    {
+      "id": "esc-01",
+      "category": "escalation",
+      "pass": true,
+      "failures": [],
+      "agent": "escalation",
+      "reply": "I'm really sorry about this Sophie. For your safety, please stop using the item and unplug it if it is electrical. I've passed your conversation to a member of our customer care team with a full summary, so you won't need to repeat yourself. They will reply here within the next hour.",
+      "ms": 650,
+      "costUsd": 0.000032,
+      "tokens": 597
+    },
+    {
+      "id": "esc-02",
+      "category": "escalation",
+      "pass": true,
+      "failures": [],
+      "agent": "escalation",
+      "reply": "I'm really sorry about this Harry. I've passed your conversation to a member of our customer care team with a full summary, so you won't need to repeat yourself. They will reply here within the next hour.",
+      "ms": 730,
+      "costUsd": 0.000032,
+      "tokens": 591
+    },
+    {
+      "id": "esc-03",
+      "category": "escalation",
+      "pass": true,
+      "failures": [],
+      "agent": "escalation",
+      "reply": "I'm really sorry about this Noah. I've passed your conversation to a member of our customer care team with a full summary, so you won't need to repeat yourself. They will reply here within the next hour.",
+      "ms": 598,
+      "costUsd": 0.000032,
+      "tokens": 576
+    },
+    {
+      "id": "esc-04",
+      "category": "escalation",
+      "pass": true,
+      "failures": [],
+      "agent": "escalation",
+      "reply": "I'm really sorry about this Amelia. I've passed your conversation to a member of our customer care team with a full summary, so you won't need to repeat yourself. They will reply here within the next hour.",
+      "ms": 562,
+      "costUsd": 0.000035,
+      "tokens": 634
+    },
+    {
+      "id": "esc-05",
+      "category": "escalation",
+      "pass": true,
+      "failures": [],
+      "agent": "escalation",
+      "reply": "I'm really sorry about this Mohammed. I've passed your conversation to a member of our customer care team with a full summary, so you won't need to repeat yourself. They will reply here within the next hour.",
+      "ms": 699,
+      "costUsd": 0.000034,
+      "tokens": 616
+    },
+    {
+      "id": "esc-06",
+      "category": "escalation",
+      "pass": true,
+      "failures": [],
+      "agent": "escalation",
+      "reply": "I'm really sorry about this Isla. I've passed your conversation to a member of our customer care team with a full summary, so you won't need to repeat yourself. They will reply here within the next hour.",
+      "ms": 652,
+      "costUsd": 0.000032,
+      "tokens": 590
+    },
+    {
+      "id": "rt-01",
+      "category": "routing",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "I'm sorry, I don't know the answer to that and I don't want to guess. I can pass your question to our customer care team (Monday to Friday 8am to 6pm, Saturday 9am to 1pm (UK time)), or you can email help@brightbasket.co.uk. Would you like me to do that?",
+      "ms": 638,
+      "costUsd": 0.000019,
+      "tokens": 367
+    },
+    {
+      "id": "rt-02",
+      "category": "routing",
+      "pass": true,
+      "failures": [],
+      "agent": "orders",
+      "reply": "Order BB-10401 is delivered with Royal Mail, tracking number RM10401GB.",
+      "ms": 784,
+      "costUsd": 0.000455,
+      "tokens": 1111
+    },
+    {
+      "id": "rt-03",
+      "category": "routing",
+      "pass": true,
+      "failures": [],
+      "agent": "support",
+      "reply": "sku: LGT-003; name: Arc Floor Lamp - Black; category: Lighting; price gbp: 149.00; in stock: yes [1]",
+      "ms": 624,
+      "costUsd": 0.000267,
+      "tokens": 781
+    }
+  ]
+}
