@@ -1,0 +1,22 @@
+name: unpack-upload
+on:
+  push:
+    paths: ['cadral-upload.zip']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unpack folders from the uploaded zip
+        run: |
+          unzip -oq cadral-upload.zip -d /tmp/u
+          cp -R /tmp/u/cadral-upload/. .
+          git rm -q cadral-upload.zip
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Unpack project folders from cadral-upload.zip"
+          git push
