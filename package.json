@@ -1,0 +1,64 @@
+{
+  "name": "cadral-ai-ops-agent",
+  "version": "1.0.0",
+  "description": "Autonomous AI customer-operations agent for a UK e-commerce shop",
+  "scripts": {
+    "dev": "tsx watch server/src/main.ts",
+    "start": "tsx server/src/main.ts",
+    "build:web": "vite build --config web/vite.config.ts",
+    "dev:web": "vite --config web/vite.config.ts",
+    "seed": "tsx server/src/db/seed.ts",
+    "make:docs": "tsx data/make-docs.ts",
+    "ingest": "tsx server/src/rag/ingest-cli.ts",
+    "eval": "tsx evals/run.ts",
+    "finetune:dataset": "tsx finetune/make-dataset.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test server/test/*.test.ts"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.17",
+    "@electric-sql/pglite-pgvector": "^0.0.18",
+    "@fastify/cors": "^11.4.3",
+    "@fastify/jwt": "^10.2.8",
+    "@fastify/static": "^10.1.12",
+    "bcryptjs": "^3.0.3",
+    "cheerio": "^1.2.0",
+    "csv-parse": "^7.0.3",
+    "fastify": "^5.12.8",
+    "imapflow": "^2.12.2",
+    "mailparser": "^3.15.0",
+    "node-cron": "^4.6.0",
+    "nodemailer": "^10.6.1",
+    "openai": "^7.62.0",
+    "pdf-parse": "^2.4.5",
+    "pdfkit": "^0.21.0",
+    "pg": "^8.23.1",
+    "tsx": "^4.23.15",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/mailparser": "^3.9.0",
+    "@types/node": "^26.6.6",
+    "@types/node-cron": "^3.0.11",
+    "@types/nodemailer": "^8.0.2",
+    "@types/pdfkit": "^0.17.7",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8"
+  },
+  "optionalDependencies": {
+    "@huggingface/transformers": "^4.3.2"
+  },
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}

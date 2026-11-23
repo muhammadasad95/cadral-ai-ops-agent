@@ -1,0 +1,17 @@
+# Local full stack: the app + Postgres with pgvector.  docker compose up --build  ->  http://localhost:7860
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment: { POSTGRES_PASSWORD: postgres, POSTGRES_DB: brightbasket }
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U postgres"], interval: 5s, retries: 10 }
+  app:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/brightbasket
+      PUBLIC_URL: http://localhost:7860
+    ports: ["7860:7860"]
+    depends_on: { db: { condition: service_healthy } }
+volumes: { pgdata: {} }
