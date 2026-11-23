@@ -2,7 +2,7 @@
 
 A multi-agent AI system that runs customer operations for a UK e-commerce shop (fictional **Brightbasket Home**, homeware): it answers customers on web chat, Telegram and email, takes real actions on orders, escalates risky conversations to humans, learns from human corrections and sends management a daily report.
 
-**Live demo:** `<APP_URL>` · **Dashboard login:** `admin@demo.shop` / `admin123` (admin) or `agent@demo.shop` / `agent123` (agent) · **Customer chat:** `<APP_URL>/#/chat` · **Telegram:** `@<BOT_USERNAME>`
+**Live demo:** https://asad455-cadral-ai-ops-agent.hf.space · **Dashboard login:** `admin@demo.shop` / `admin123` (admin) or `agent@demo.shop` / `agent123` (agent) · **Customer chat:** https://asad455-cadral-ai-ops-agent.hf.space/#/chat
 
 > Built for the Cadral AI technical assessment. Stack: TypeScript, Node.js (Fastify), Postgres + pgvector, React, Groq (Llama 3.3 70B / 3.1 8B), transformers.js, Docker. Free tiers only.
 
@@ -21,7 +21,7 @@ A multi-agent AI system that runs customer operations for a UK e-commerce shop (
 | **5. Automation** | 3 channels: web chat (streaming), **Telegram** bot, **email** (IMAP in, SMTP/Brevo out). **Daily management report** by email + Slack (volume, top issues, refunds, AI accuracy, cost). **Slack alerts** for escalations, refunds awaiting approval and system errors. **Durable job queue** in Postgres with exponential backoff and dead-lettering: inbound messages are stored before any API call, so nothing is lost if an API fails ([queue.ts](server/src/jobs/queue.ts)). |
 | **6. Full-stack dashboard** | React. Login with **roles** (admin, agent). Live conversation view (SSE) with **streaming** customer replies, **agent trace** (route decision, retrieved chunks with scores, every tool call with its reason and result), approve / edit / reject, human takeover, refund approvals, escalations, **analytics** (auto-resolution %, response time, cost per conversation, accuracy over time). |
 | **7. Evals & monitoring** | 60 scripted cases across FAQ, "I don't know", order lookups, actions with real DB side effects, policy, security (prompt injection, other customers' orders) and escalation. **One command** — `npm run eval` — prints a score. Token cost and latency are logged for every LLM call. |
-| **8. Deployment** | One Docker image (API + workers + dashboard). Runs on Hugging Face Spaces (free) with Neon Postgres (free). Secrets only in environment variables. CI on GitHub Actions. |
+| **8. Deployment** | One Docker image (API + workers + dashboard). Runs on a free Hugging Face Space (see `deploy/hf-space/app.py`), with Neon Postgres (free) when `DATABASE_URL` is set. Secrets only in environment variables. CI on GitHub Actions. |
 
 ## Architecture
 
@@ -95,7 +95,7 @@ Open [`finetune/finetune_router.ipynb`](finetune/finetune_router.ipynb) in Googl
 
 1. **Neon** → create a project → copy the connection string (`DATABASE_URL`).
 2. **Groq** → create an API key (`LLM_API_KEY`).
-3. **Hugging Face** → New Space → Docker → connect this repo (or push to the Space repo).
+3. **Hugging Face** → New Space → Gradio SDK (free tier) → upload [`deploy/hf-space/app.py`](deploy/hf-space/app.py). On start it downloads Node 22, clones this repo, builds the dashboard and runs the server on port 7860. (Docker Spaces need a paid plan; the `Dockerfile` works on any Docker host.)
 4. Space → Settings → **Variables and secrets**: add the variables from `.env.example` (`DATABASE_URL`, `LLM_API_KEY`, `JWT_SECRET`, `PUBLIC_URL`, `TELEGRAM_BOT_TOKEN`, `SLACK_WEBHOOK_URL`, `EMAIL_*`/`BREVO_API_KEY`, `REPORT_EMAIL_TO`, `CRON_KEY`).
 5. GitHub repo → Settings → Secrets → `APP_URL`, `CRON_KEY` (for the daily-report workflow).
 
