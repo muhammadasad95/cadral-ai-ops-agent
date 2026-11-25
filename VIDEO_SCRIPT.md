@@ -11,7 +11,7 @@ Record at 1080p with the dashboard on the left half and the customer chat (or Te
 | 1:40–2:05 | Telegram on your phone (screen mirror): "My kettle caught fire!" → Slack alert appears → dashboard Escalations | "Angry, legal or safety messages go straight to escalation. The customer gets told a human is coming, and the team gets a Slack alert with a summary, so nobody has to repeat themselves." |
 | 2:05–2:35 | Dashboard: a held reply → **Edit** and send → Learning page shows the feedback and a learned rule | "Humans can approve, edit or reject any reply. Every correction is saved, similar corrections are shown to the AI next time, and repeated ones become rules — this is how it improves." |
 | 2:35–2:55 | Analytics page; Ops page → "Send report now" → email arrives | "Management sees auto-resolution, response time, cost per conversation and accuracy over time, and gets a daily report by email and Slack." |
-| 2:55–3:15 | Terminal: `npm run eval` scrolling, final SCORE line; then Evals page with fine-tuning table | "Sixty automated test cases run with one command. I also fine-tuned a 1.5-billion-parameter model for routing and compared it with the base model and a 70B model on accuracy, latency and cost." |
+| 2:55–3:15 | Terminal: `npm run eval` scrolling, final SCORE line; then Evals page with fine-tuning table | "Sixty automated test cases run with one command. I also fine-tuned a 1.5-billion-parameter model for routing and compared it with the base model and a 120B model on accuracy, latency and cost." |
 | 3:15–3:30 | README top + live URL | "It's Dockerised, deployed on free tiers, with secrets in environment variables. The repo has the architecture, trade-offs and what I'd change at scale. Thanks for watching." |
 
 ## Before recording

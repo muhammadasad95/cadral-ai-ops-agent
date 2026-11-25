@@ -15,7 +15,7 @@ md("""
 We compare three options on the same held-out test set (its templates never appear in training):
 1. the **base** 1.5B model, zero-shot
 2. the **fine-tuned** 1.5B model (LoRA)
-3. a **large API model** (Llama 3.3 70B on Groq) — optional, needs a free `GROQ_API_KEY` in Colab secrets
+3. a **large API model** (GPT-OSS 120B on Groq) — optional, needs a free `GROQ_API_KEY` in Colab secrets
 
 Each model picks the label with the highest log-likelihood (no free-text parsing), so the comparison is fair.
 """)
@@ -126,7 +126,7 @@ pm.save_pretrained("router-lora")
 """)
 
 code("""
-# Optional: the large API model the app uses by default (Llama 3.3 70B on Groq). Add GROQ_API_KEY in Colab secrets (key icon).
+# Optional: the large API model the app uses by default (GPT-OSS 120B on Groq). Add GROQ_API_KEY in Colab secrets (key icon).
 api_res = None
 try:
     from google.colab import userdata
@@ -141,7 +141,7 @@ if key:
         out = None
         for attempt in range(5):
             try:
-                out = cli.chat.completions.create(model="llama-3.3-70b-versatile", temperature=0, max_tokens=5, messages=[
+                out = cli.chat.completions.create(model="openai/gpt-oss-120b", temperature=0, max_tokens=300, extra_body={"reasoning_effort": "low"}, messages=[
                     {"role": "system", "content": INSTRUCTION + " Reply with the label only."}, {"role": "user", "content": f"Message: {r['text']}\\nLabel:"}])
                 break
             except Exception as e:
@@ -152,7 +152,7 @@ if key:
         pin += out.usage.prompt_tokens; pout += out.usage.completion_tokens
     ms = 1000 * (time.time() - t0) / len(test)
     gold = [r["label"] for r in test]
-    api_res = {"name": "Llama 3.3 70B via Groq API", "accuracy": accuracy_score(gold, preds), "macro_f1": f1_score(gold, preds, average="macro"), "latency_ms": ms,
+    api_res = {"name": "GPT-OSS 120B via Groq API", "accuracy": accuracy_score(gold, preds), "macro_f1": f1_score(gold, preds, average="macro"), "latency_ms": ms,
                "cost_per_1k_usd": (pin * 0.59 + pout * 0.79) / 1e6 / len(test) * 1000}
     print(api_res)
 else:

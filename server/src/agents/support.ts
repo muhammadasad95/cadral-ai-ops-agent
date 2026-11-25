@@ -19,10 +19,13 @@ export async function supportAgent(app: App, mem: Memory, text: string, ctx: { c
   const query = text.split(' ').length < 6 && prevCustomer ? `${prevCustomer} ${text}` : text;
   const hits = await hybridSearch(app.db, query);
   const top = hits[0]?.relevance ?? 0;
+  const topVector = Math.max(0, ...hits.map((h) => h.vScore));
+  // Answer only if the reranker is confident OR the embedding match is strong; the LLM is the second guard (I_DONT_KNOW).
+  const grounded = top >= config.rag.minRelevance || topVector >= config.rag.minVector;
   await trace(app, { ...ctx, agent: 'support', step: 'retrieval', detail: { query, hits: hits.map((h) => ({ source: h.source, heading: h.heading, relevance: +h.relevance.toFixed(3), vector: +h.vScore.toFixed(3), keyword: +h.kScore.toFixed(3) })) } });
 
-  if (top < config.rag.minRelevance) {
-    await trace(app, { ...ctx, agent: 'support', step: 'i_dont_know', detail: { reason: `best relevance ${top.toFixed(2)} < threshold ${config.rag.minRelevance}` } });
+  if (!grounded) {
+    await trace(app, { ...ctx, agent: 'support', step: 'i_dont_know', detail: { reason: `best relevance ${top.toFixed(2)} < ${config.rag.minRelevance} and best vector ${topVector.toFixed(2)} < ${config.rag.minVector}` } });
     return { text: IDK_REPLY, citations: [], resolved: false };
   }
 
@@ -47,8 +50,8 @@ export async function supportAgent(app: App, mem: Memory, text: string, ctx: { c
     return { text: IDK_REPLY, citations: [], resolved: false };
   }
   const citations = cited.map((n) => ({ n, source: hits[n - 1].source, title: hits[n - 1].title, heading: hits[n - 1].heading }));
-  const borderline = top < config.rag.minRelevance + 0.1;
-  return { text: answer, citations, resolved: true, needsReview: borderline ? `low retrieval confidence (${top.toFixed(2)})` : undefined };
+  const borderline = top < config.rag.minRelevance && topVector < config.rag.minVector + 0.1;
+  return { text: answer, citations, resolved: true, needsReview: borderline ? `low retrieval confidence (relevance ${top.toFixed(2)}, vector ${topVector.toFixed(2)})` : undefined };
 }
 
 // Hold back streamed tokens until we know the model is not about to say I_DONT_KNOW.

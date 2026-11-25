@@ -42,21 +42,28 @@ export class Llm {
     const fast = !!req.fast;
     const model = modelName(fast);
     let lastErr: unknown;
-    for (let attempt = 0; attempt <= config.llm.maxRetries; attempt++) {
+    let noToolHint = false;
+    const maxAttempts = config.llm.maxRetries + 3; // extra room for free-tier rate limits (429 waits are short and exact)
+    for (let attempt = 0; attempt <= maxAttempts; attempt++) {
       const t0 = Date.now();
       try {
-        const r = config.llm.provider === 'mock' ? await mockChat(req) : await this.callApi(req, model);
+        // gpt-oss sometimes tries a built-in tool on requests that have none; retry once with an explicit instruction.
+        const call = noToolHint ? { ...req, messages: [...req.messages, { role: 'system', content: 'Do not call any tools. Reply in plain text only.' } as any] } : req;
+        const r = config.llm.provider === 'mock' ? await mockChat(call) : await this.callApi(call, model);
         const res: ChatResult = { ...r, model, latencyMs: Date.now() - t0, costUsd: cost(fast, r.promptTokens, r.completionTokens) };
         await this.log(req, res, true);
         return res;
       } catch (e: any) {
         lastErr = e;
         const status = e?.status ?? e?.response?.status;
-        const retryable = !status || status === 429 || status >= 500;
+        const msg = String(e?.message ?? '');
+        const toolMisfire = status === 400 && /tool choice is none|called a tool/i.test(msg) && !noToolHint;
+        const retryable = !status || status === 429 || status >= 500 || toolMisfire;
         await this.log(req, { content: '', toolCalls: [], model, promptTokens: 0, completionTokens: 0, latencyMs: Date.now() - t0, costUsd: 0 }, false);
-        if (!retryable || attempt === config.llm.maxRetries) break;
-        const wait = Math.min(8000, 500 * 2 ** attempt) + Math.random() * 250;
-        await sleep(wait);
+        if (toolMisfire) { noToolHint = true; continue; }
+        const limit = status === 429 ? maxAttempts : config.llm.maxRetries;
+        if (!retryable || attempt >= limit) break;
+        await sleep(retryDelay(e, attempt));
       }
     }
     throw lastErr;
@@ -79,7 +86,7 @@ export class Llm {
         if (d) { content += d; req.onToken(d); }
         if (part.usage) usage = part.usage;
       }
-      return { content, toolCalls: [], promptTokens: usage?.prompt_tokens ?? 0, completionTokens: usage?.completion_tokens ?? 0 };
+      return { content: tidy(content), toolCalls: [], promptTokens: usage?.prompt_tokens ?? 0, completionTokens: usage?.completion_tokens ?? 0 };
     }
     const r = await c.chat.completions.create(base);
     const m = r.choices[0].message;
@@ -88,7 +95,7 @@ export class Llm {
       try { args = JSON.parse(t.function.arguments || '{}'); } catch { args = { _raw: t.function.arguments }; }
       return { id: t.id, name: t.function.name, args };
     });
-    return { content: m.content ?? '', toolCalls, promptTokens: r.usage?.prompt_tokens ?? 0, completionTokens: r.usage?.completion_tokens ?? 0 };
+    return { content: tidy(m.content ?? ''), toolCalls, promptTokens: r.usage?.prompt_tokens ?? 0, completionTokens: r.usage?.completion_tokens ?? 0 };
   }
 
   private async log(req: ChatRequest, r: ChatResult, ok: boolean) {
@@ -105,4 +112,19 @@ export function parseJson<T = any>(s: string, fallback: T): T {
     if (m) { try { return JSON.parse(m[0]); } catch { /* ignore */ } }
     return fallback;
   }
+}
+
+// Customer-facing text goes to plain-text channels (Telegram, email, web chat), so strip Markdown emphasis and
+// normalise the non-breaking hyphens/spaces some models emit (e.g. "BB\u201110402"), which also break ID matching.
+export function tidy(t: string): string {
+  return t.replace(/【(\d+)(?:†[^】]*)?】/g, '[$1]').replace(/[\u2010\u2011]/g, '-').replace(/[\u00a0\u202f]/g, ' ').replace(/\*\*(.+?)\*\*/g, '$1').replace(/__(.+?)__/g, '$1');
+}
+
+// Wait exactly as long as the provider asks ("try again in 4.6s", "435ms" or a Retry-After header), else back off exponentially.
+export function retryDelay(e: any, attempt: number): number {
+  const header = Number(e?.headers?.['retry-after'] ?? e?.headers?.get?.('retry-after'));
+  if (Number.isFinite(header) && header > 0) return Math.min(20000, header * 1000 + 250);
+  const m = String(e?.message ?? '').match(/try again in ([\d.]+)\s*(ms|s)/i);
+  if (m) return Math.min(20000, Number(m[1]) * (m[2].toLowerCase() === 'ms' ? 1 : 1000) + 300);
+  return Math.min(8000, 500 * 2 ** attempt) + Math.random() * 250;
 }

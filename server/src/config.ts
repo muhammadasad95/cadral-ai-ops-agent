@@ -19,8 +19,8 @@ export const config = {
     provider: (env.LLM_PROVIDER ?? (env.LLM_API_KEY ? 'openai' : 'mock')) as 'openai' | 'mock',
     baseUrl: env.LLM_BASE_URL ?? 'https://api.groq.com/openai/v1',
     apiKey: env.LLM_API_KEY ?? '',
-    model: env.LLM_MODEL ?? 'llama-3.3-70b-versatile',
-    fastModel: env.LLM_FAST_MODEL ?? 'llama-3.1-8b-instant',
+    model: env.LLM_MODEL ?? 'openai/gpt-oss-120b',
+    fastModel: env.LLM_FAST_MODEL ?? 'openai/gpt-oss-20b',
     // USD per 1M tokens, used for cost tracking. Groq free tier is $0, so we track list price to show "what it would cost".
     priceIn: num(env.LLM_PRICE_IN, 0.59),
     priceOut: num(env.LLM_PRICE_OUT, 0.79),
@@ -34,7 +34,8 @@ export const config = {
   reranker: (env.RERANKER ?? 'local') as 'local' | 'lexical',
 
   rag: {
-    minRelevance: num(env.RAG_MIN_RELEVANCE, 0.3), // below this the support agent says "I don't know"
+    minRelevance: num(env.RAG_MIN_RELEVANCE, 0.3), // reranker relevance needed to answer...
+    minVector: num(env.RAG_MIN_VECTOR, 0.45), // ...or this cosine similarity (the cross-encoder under-scores short paraphrased questions)
     topK: num(env.RAG_TOP_K, 4),
   },
 

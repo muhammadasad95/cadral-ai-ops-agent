@@ -29,10 +29,10 @@ Every message, from any channel, goes through one orchestrator: **store it, load
 |---|---|---|---|---|
 | Qwen2.5-1.5B base (zero-shot) | _fill from results.json_ | | | |
 | Qwen2.5-1.5B + LoRA | _fill from results.json_ | | | |
-| Llama 3.3 70B (Groq API) | _fill from results.json_ | | | |
+| GPT-OSS 120B (Groq API) | _fill from results.json_ | | | |
 
 **When to use which**
-- **Fine-tuned small model:** narrow, high-volume, stable decisions (routing, tone, intent). Cheapest per call, lowest latency when self-hosted, data stays in-house, and accuracy can match a 70B model on a closed label set.
+- **Fine-tuned small model:** narrow, high-volume, stable decisions (routing, tone, intent). Cheapest per call, lowest latency when self-hosted, data stays in-house, and accuracy can match a 120B model on a closed label set.
 - **RAG:** anything that depends on facts that change — policies, prices, stock. Update a document, not the weights. Fine-tuning facts in would make them stale and unverifiable (no citations).
 - **Large API model:** open-ended work — writing replies, multi-step tool use, summaries for humans — where quality matters more than cost per call.
 
@@ -45,7 +45,7 @@ In this system the router could switch to the fine-tuned model (it runs on a sma
 | Run | Model / embeddings | Score | FAQ | IDK | Orders | Actions | Policy | Security | Escalation | Routing |
 |---|---|---|---|---|---|---|---|---|---|---|
 | Offline pipeline check | mock LLM / hash embeddings | 78.3% | 14/20 | 5/6 | 4/8 | 6/8 | 5/5 | 4/4 | 6/6 | 3/3 |
-| Production config | Llama 3.3 70B + 3.1 8B / MiniLM + cross-encoder | _fill after run_ | | | | | | | | |
+| Production config | GPT-OSS 120B + 20B / MiniLM + cross-encoder | _fill after run_ | | | | | | | | |
 
 The offline run uses a keyword-matching mock model and hash embeddings so CI can run without keys; it proves the plumbing (tools, side effects, policy and security checks pass 100%), not answer quality. Policy, security and escalation are 100% even offline because those rules are enforced in code.
 
@@ -53,7 +53,7 @@ The offline run uses a keyword-matching mock model and hash embeddings so CI can
 
 | At scale… | What breaks | Fix |
 |---|---|---|
-| 10k+ messages/day | LLM rate limits and cost | Route with the fine-tuned small model; cache answers to frequent questions (semantic cache keyed on the query embedding + document versions); batch the 8B calls; move to provisioned throughput. |
+| 10k+ messages/day | LLM rate limits and cost | Route with the fine-tuned small model; cache answers to frequent questions (semantic cache keyed on the query embedding + document versions); batch the 20B calls; move to provisioned throughput. |
 | Many app instances | Telegram long polling and the cron run on every instance | Telegram webhook behind a load balancer; leader election (Postgres advisory lock) for cron and pollers. |
 | Large knowledge base | Exact vector scan, re-embedding everything on reindex | HNSW index in pgvector; incremental ingestion by document hash; move to a dedicated vector store only past ~10M chunks. |
 | High job volume | Postgres-as-queue contention | Keep the outbox pattern but move workers to a real queue (SQS / Cloud Tasks / BullMQ); idempotency keys on every outbound send. |

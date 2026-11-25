@@ -43,5 +43,50 @@
     "avg_latency_ms": 651,
     "avg_cost_usd": 0.0002699333333333333,
     "avg_tokens": 786
+  },
+  {
+    "created_at": "2026-11-25T10:40:51.844Z",
+    "model": "mock-llm",
+    "embeddings": "local",
+    "score": 80,
+    "passed": 48,
+    "total": 60,
+    "byCategory": {
+      "faq": {
+        "passed": 14,
+        "total": 20
+      },
+      "idk": {
+        "passed": 5,
+        "total": 6
+      },
+      "orders": {
+        "passed": 4,
+        "total": 8
+      },
+      "actions": {
+        "passed": 7,
+        "total": 8
+      },
+      "policy": {
+        "passed": 5,
+        "total": 5
+      },
+      "security": {
+        "passed": 4,
+        "total": 4
+      },
+      "escalation": {
+        "passed": 6,
+        "total": 6
+      },
+      "routing": {
+        "passed": 3,
+        "total": 3
+      }
+    },
+    "avg_latency_ms": 728,
+    "avg_cost_usd": 0.00026986666666666665,
+    "avg_tokens": 786
   }
 ]
