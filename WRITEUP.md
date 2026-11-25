@@ -14,7 +14,7 @@ Every message, from any channel, goes through one orchestrator: **store it, load
 | **"I don't know" in three places** | Low retrieval relevance, the model's own `I_DONT_KNOW`, and a post-check that rejects answers without valid citations. | Some answerable questions get a cautious reply; the review queue catches these. |
 | **Postgres for everything** (pgvector, FTS, job queue with `SKIP LOCKED`) | One free managed database (Neon) instead of a vector DB + a queue service + Redis. Fewer moving parts, one backup. | At high scale the queue and vector index would move out (see below). |
 | **PGlite for dev, tests and evals** | The same SQL and pgvector run in-process, so the app, the tests and 60 evals start with zero setup, and each eval case gets an isolated database copy. | Not for multi-instance production; production uses `DATABASE_URL`. |
-| **Groq (OpenAI-compatible)** | Free tier, very low latency, tool calling. The client is provider-agnostic (Gemini, OpenRouter, Ollama work by changing `LLM_BASE_URL`). | Free-tier rate limits; handled with retries and backoff. |
+| **Groq (OpenAI-compatible)** | Free tier, very low latency, tool calling. The client is provider- and model-agnostic (Gemini, OpenRouter, Ollama work by changing `LLM_BASE_URL`; models by `LLM_MODEL` / `LLM_FAST_MODEL`). | Free-tier limit of 8,000 tokens a minute on the large model; handled with retries that wait as long as the API asks. |
 | **Local embeddings + reranker (transformers.js)** | Free, no API key, no data leaves the server. | The model files make the Docker image larger and the first start slower. |
 | **Human review modes AUTO / SMART / REVIEW** | Lets the shop start in REVIEW and move to SMART as measured accuracy rises. | REVIEW mode adds latency for customers. |
 | **Learning = retrieval of past corrections + distilled rules, not online fine-tuning** | Immediate effect, auditable, reversible (rules can be switched off), no training run per correction. The same feedback exports as a fine-tuning dataset for periodic retraining. | Rules can conflict if never pruned; the dashboard shows and toggles them. |
@@ -44,8 +44,17 @@ In this system the router could switch to the fine-tuned model (it runs on a sma
 
 | Run | Model / embeddings | Score | FAQ | IDK | Orders | Actions | Policy | Security | Escalation | Routing |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Offline pipeline check | mock LLM / hash embeddings | 78.3% | 14/20 | 5/6 | 4/8 | 6/8 | 5/5 | 4/4 | 6/6 | 3/3 |
-| Production config | GPT-OSS 120B + 20B / MiniLM + cross-encoder | _fill after run_ | | | | | | | | |
+| Offline pipeline check | mock LLM / hash embeddings | 80.0% (48/60) | 14/20 | 5/6 | 4/8 | 7/8 | 5/5 | 4/4 | 6/6 | 3/3 |
+| Live deployment, real model (25 Nov 2026) | GPT-OSS 120B + 20B (Groq) / MiniLM + cross-encoder | **90.0% (54/60)** | 19/20 | 4/6 | 8/8 | 8/8 | 3/5 | 3/4 | 6/6 | 3/3 |
+
+The live run sent all 60 cases through the public chat API of the deployed app (each case a new chat session, about 12 seconds apart to stay inside Groq's free-tier limit of 8,000 tokens a minute). It is stricter than the offline harness on wording but cannot run the SQL side-effect checks, so actions and policy were also verified in the dashboard (refunds, cancellations, approvals). Response time: median 1.9 s, mean 2.1 s, p95 4.3 s end to end; 81% of conversations resolved without a human; no dead jobs.
+
+What the 6 misses were, and what changed:
+- 3 correct answers were held for human review instead of sent (two borderline-confidence retrievals, and an "I don't know" where the router was unsure). Safe, but slower for the customer. Fixed: a handover-style "I don't know" is no longer held, and the borderline window is narrower.
+- 1 reply failed on the first attempt because GPT-OSS emitted a tool call where none was allowed; the job queue retried it and the customer got the answer a few seconds later. Fixed: the LLM client now retries that specific error with an explicit instruction.
+- 2 replies did the right thing in different words ("I don't see an order BB-10401 on your account"; a £500 refund capped at the £299 order total and sent for approval). The check phrases were widened.
+
+Model change during the build: Groq moved Llama 3.3 70B and 3.1 8B to Enterprise-only, so the free key returned "model does not exist". The app switched to GPT-OSS 120B (replies, tools) and GPT-OSS 20B (routing) through two environment variables, with no code change, which is the reason the LLM client is provider- and model-agnostic. Two fixes came out of the real-model run: rate-limit-aware retries (wait exactly as long as the API asks) and accepting GPT-OSS's 【1】 citation style; the relevance gate now also accepts a strong embedding match because the cross-encoder under-scores short paraphrased questions (e.g. "Can I ship an order to France?" scored 0.04 against the correct EU section).
 
 The offline run uses a keyword-matching mock model and hash embeddings so CI can run without keys; it proves the plumbing (tools, side effects, policy and security checks pass 100%), not answer quality. Policy, security and escalation are 100% even offline because those rules are enforced in code.
 

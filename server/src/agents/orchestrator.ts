@@ -64,7 +64,7 @@ export async function respond(app: App, customerMessageId: number, opts: { onTok
   // Review policy (human in the loop).
   let reviewReason: string | undefined;
   if (config.reviewMode === 'REVIEW') reviewReason = 'review mode: every reply is approved by a human';
-  else if (config.reviewMode === 'SMART') reviewReason = reply.needsReview ?? (r.confidence < 0.5 ? `router unsure (confidence ${r.confidence})` : undefined);
+  else if (config.reviewMode === 'SMART') reviewReason = reply.needsReview ?? (r.confidence < 0.5 && reply.resolved ? `router unsure (confidence ${r.confidence})` : undefined); // an "I don't know" with a handover offer is already the safe answer
   if (r.agent === 'escalation') reviewReason = undefined; // the holding message always goes out immediately
 
   const status = reviewReason ? 'pending_review' : 'sent';

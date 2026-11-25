@@ -43,12 +43,14 @@ export class Llm {
     const model = modelName(fast);
     let lastErr: unknown;
     let noToolHint = false;
+    let misfires = 0;
     const maxAttempts = config.llm.maxRetries + 3; // extra room for free-tier rate limits (429 waits are short and exact)
     for (let attempt = 0; attempt <= maxAttempts; attempt++) {
       const t0 = Date.now();
       try {
         // gpt-oss sometimes tries a built-in tool on requests that have none; retry once with an explicit instruction.
-        const call = noToolHint ? { ...req, messages: [...req.messages, { role: 'system', content: 'Do not call any tools. Reply in plain text only.' } as any] } : req;
+        const hint = req.tools?.length ? 'Only call the functions provided to you, or reply in plain text.' : 'Do not call any tools. Reply in plain text only.';
+        const call = noToolHint ? { ...req, temperature: Math.max(req.temperature ?? 0.2, 0.3), messages: [...req.messages, { role: 'system', content: hint } as any] } : req;
         const r = config.llm.provider === 'mock' ? await mockChat(call) : await this.callApi(call, model);
         const res: ChatResult = { ...r, model, latencyMs: Date.now() - t0, costUsd: cost(fast, r.promptTokens, r.completionTokens) };
         await this.log(req, res, true);
@@ -57,10 +59,10 @@ export class Llm {
         lastErr = e;
         const status = e?.status ?? e?.response?.status;
         const msg = String(e?.message ?? '');
-        const toolMisfire = status === 400 && /tool choice is none|called a tool/i.test(msg) && !noToolHint;
+        const toolMisfire = status === 400 && /tool choice is none|called a tool|tool call validation/i.test(msg) && misfires < 2;
         const retryable = !status || status === 429 || status >= 500 || toolMisfire;
         await this.log(req, { content: '', toolCalls: [], model, promptTokens: 0, completionTokens: 0, latencyMs: Date.now() - t0, costUsd: 0 }, false);
-        if (toolMisfire) { noToolHint = true; continue; }
+        if (toolMisfire) { noToolHint = true; misfires++; continue; }
         const limit = status === 429 ? maxAttempts : config.llm.maxRetries;
         if (!retryable || attempt >= limit) break;
         await sleep(retryDelay(e, attempt));

@@ -50,7 +50,7 @@ export async function supportAgent(app: App, mem: Memory, text: string, ctx: { c
     return { text: IDK_REPLY, citations: [], resolved: false };
   }
   const citations = cited.map((n) => ({ n, source: hits[n - 1].source, title: hits[n - 1].title, heading: hits[n - 1].heading }));
-  const borderline = top < config.rag.minRelevance && topVector < config.rag.minVector + 0.1;
+  const borderline = top < config.rag.minRelevance && topVector < config.rag.minVector + 0.05;
   return { text: answer, citations, resolved: true, needsReview: borderline ? `low retrieval confidence (relevance ${top.toFixed(2)}, vector ${topVector.toFixed(2)})` : undefined };
 }
 
